@@ -14,17 +14,23 @@ import a10 from './assets/3.jpg'
 import a11 from './assets/2.jpg'
 import a12 from './assets/1.webp'
 import './App.css'
+import {motion} from 'framer-motion'
 import {createPortal} from 'react-dom'
+import bgui from './assets/bgUI.jpeg'
 function CartLists ({isAdd,onClose,children}) {
     if (!isAdd) return null;
     
     return createPortal(
-              <div className='flex justify-end fixed inset-0 h-screen-min transition-all'>
+              <motion.div
+                initial={{x:1000,opacity:0.7}}
+                animate={{x:0,opacity:1}}
+                transition={{type:'spring',duration:1.5,ease:'easeInOut',delay:0.1}}
+              className='flex justify-end fixed inset-0 h-screen-min transition-all'>
                   <div className='bg-slate-400 p-5 w-[60%] rounded-xl overflow-scroll'>
                     <button className='bg-slate-900 text-slate-200 px-2 py-1 rounded-full cursor-pointer' onClick={onClose}>X</button>
                     {children}
                   </div>
-              </div>,
+              </motion.div>,
             document.body
     )
 }
@@ -97,24 +103,45 @@ const handleDelete = (id) => {
 
   return (
     <div>
-      <div className='h-screen-min bg-gradient-to-t from-slate-700  via-slate-800  to-slate-700'>
-        <header className='flex justify-between px-5 py-2 bg-slate-300 rounded-b-2xl border-double shadow-2xl drop-shadow-[2px_3px_12px]'>
-          <div className='flex gap-4 items-center'>
+      <div
+        className='h-screen-min  bg-gradient-to-t from-slate-700  via-slate-800  to-slate-700'>
+        <motion.header
+          initial={{y:-90,opacity:0.5}}
+          animate={{y:0,opacity:1}}
+          transition={{type:'spring',duration:.5,ease:'easeInOut',delay:0.2}}
+          className='flex justify-between px-5 py-2 bg-slate-300 rounded-b-2xl border-double shadow-2xl drop-shadow-[2px_3px_12px]'>
+          <motion.div
+            initial={{x:-150,rotate:-20,opacity:0}}
+            animate={{x:0,rotate:0,opacity:1}}
+            transition={{type:'spring',duration:.7,ease:'easeInOut',delay:0.5}}
+            className='flex gap-4 items-center'>
             <img className='w-10 h-10 rounded-[10px]' src={logo} />
             <h1 className=' font-mono text-3xl text-slate-800 shadow-ms drop-shadow-[1px_1px_2px_black]'>Fast Food</h1>
-          </div>
-          <nav className='flex items-center gap-2'> 
+          </motion.div>
+          <motion.nav 
+            initial={{x:150,rotate:20,opacity:0}}
+            animate={{x:0,rotate:0,opacity:1}}
+            transition={{type:'spring',duration:.7,ease:'easeInOut',delay:0.5}}
+            className='flex items-center gap-2'> 
             <img className='w-15 h-15 rounded-[10px] cursor-pointer' onClick={()=>setIsAdd(true)} src={cart} />
             <h1 className='text-2xl'>{itemCount}</h1>
-          </nav>
-        </header>
+          </motion.nav>
+        </motion.header>
         <main className='flex flex-col p-10 gap-6'>
-          <h1 className='  font-mono text-3xl text-slate-300 shadow-ms drop-shadow-[1px_1px_5px_white]'>Feed Your Cravings</h1>
+          <motion.h1
+          initial={{x:-150,rotate:-20,opacity:0}}
+            animate={{x:0,rotate:0,opacity:1}}
+            transition={{type:'spring',duration:.7,ease:'easeInOut',delay:0.5}}
+          className='  font-mono text-3xl text-slate-300 shadow-ms drop-shadow-[1px_1px_5px_white]'>Feed Your Cravings</motion.h1>
             <section className='flex flex-wrap gap-6 justify-center '>
               {
                 product.map((product)=>(
-                  <div  key={product.id} className='flex flex-col bg-gradient-to-r from-slate-500 via-slate-300 via-slate-300  to-slate-500 w-80 h-100 rounded-2xl border-2 border-slate-100 drop-shadow-[1px_1px_3px_white] overflow-hidden transition-all'>
-                    <img src={product.img} className='m-3 p-5 hover:animate-bounce rounded-4xl animate-pulse'/>
+                  <motion.div
+                  initial={{y:150,scale:0.001,opacity:0.6,rotate:360}}
+                  animate={{y:0,scale:1,opacity:1,rotate:0}}
+                  transition={{type:'spring',duration:1.5,ease:'easeInOut',delay:0.5}}
+                  key={product.id} className='flex flex-col bg-gradient-to-r from-slate-500 via-slate-300 via-slate-300  to-slate-500 w-80 h-100 rounded-2xl border-2 border-slate-100 drop-shadow-[1px_1px_3px_white] overflow-hidden transition-all'>
+                    <img src={product.img} className='m-3 p-5 rounded-4xl'/>
                     <div className='flex justify-between'>
                       <div className='flex flex-col ml-5'>
                         <h1 className='font-semibold font-sans text-[20px] text-slate-900'>{product.name}</h1>
@@ -122,7 +149,7 @@ const handleDelete = (id) => {
                       </div>
                       <img onClick={()=>cartItem(product)} className='w-20 h-20 p-2 bg-slate-600 mt-2 ml-2 rounded-l-2xl hover:{<h1>Add to cart</h1>} ' src={cart} />
                     </div>
-                  </div>
+                  </motion.div>
                 ))
               }
             </section>
